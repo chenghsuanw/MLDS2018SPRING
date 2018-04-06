@@ -131,7 +131,7 @@ def main():
         gradients = []
         with tf.Session(config = config) as sess:
             sess.run(init)
-            for e in range(1000):
+            for e in range(2000):
                 avg_loss = 0
                 for k in range(10):            
                     _, c, summary = sess.run([optimizer, loss, merged_summary_op],feed_dict={x: train[k*1000:k*1000+1000,0].reshape((1000,1)), y: train[k*1000:k*1000+1000,1].reshape((1000,1))})
@@ -143,7 +143,7 @@ def main():
                     losses.append(sess.run(loss,feed_dict={x:train[:,0].reshape((10000,1)), y:train[:,1].reshape((10000,1))}))
                     
                 
-            for e in range(1000):
+            for e in range(2000):
                 avg_loss = 0
                 for k in range(10):            
                     _, c, summary = sess.run([optimizer2, loss2, merged_summary_op],feed_dict={x: train[k*1000:k*1000+1000,0].reshape((1000,1)), y: train[k*1000:k*1000+1000,1].reshape((1000,1))})

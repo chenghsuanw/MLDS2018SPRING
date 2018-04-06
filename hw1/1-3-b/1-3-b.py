@@ -36,7 +36,7 @@ def main():
 
     
     sharpness = []
-    for hessian in hh:
+    for hessian in hs:
         eigs = []
         for h_layer in hessian:
             print(h_layer.shape)
@@ -44,9 +44,9 @@ def main():
             print(val[0])
             eigs.append(val)
         k = eigs.index(max(eigs))
-        #v = np.linalg.norm(hessian[k],2)
-        print(k)
-        sharpness.append(1)
+        v = np.linalg.norm(hessian[k],2)
+        print(v)
+        sharpness.append(v)
     
     
 

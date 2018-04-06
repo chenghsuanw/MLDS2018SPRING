@@ -16,6 +16,7 @@ def main():
         loss = pickle.load(handle)
     with open("100timestest_hessians.pickle","rb") as handle:
         hess = pickle.load(handle)
+    print(hess)
     print((hess[0][-1]).shape)
     loss_all = []
     hess_all = []
