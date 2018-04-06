@@ -6,7 +6,6 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import pickle
 
-
 epoch = 10000
 
 
@@ -96,7 +95,7 @@ def main():
     dim, _ = dloss_dw.get_shape()
     hess = []
     for i in range(dim):
-        
+        # tf.slice: https://www.tensorflow.org/versions/0.6.0/api_docs/python/array_ops.html#slice
         dfx_i = tf.slice(dloss_dw, begin=[i,0] , size=[1,1])
         ddfx_i = tf.gradients(dfx_i, parameters)[0] # whenever we use tf.gradients, make sure you get the actual tensors by putting [0] at the end
         hess.append(ddfx_i)
@@ -121,24 +120,45 @@ def main():
     config.gpu_options.allow_growth = True
     
     
-    
+    hessians = []
+    losses = []
+    gradients = []
     with tf.Session(config = config) as sess:
         saver = tf.train.Saver(max_to_keep=10)
         sess.run(init)
-        for e in range(500):
+        for e in range(1000):
             avg_loss = 0
             for k in range(10):            
                 _, c, summary = sess.run([optimizer, loss, merged_summary_op],feed_dict={x: train[k*1000:k*1000+1000,0].reshape((1000,1)), y: train[k*1000:k*1000+1000,1].reshape((1000,1))})
                 
                 avg_loss += c
-            print (avg_loss)
             '''
             if (e+1) % 50 == 0:
                 hessians.append(sess.run(hess,feed_dict={x:train[:,0].reshape((10000,1)), y:train[:,1].reshape((10000,1))}))
                 losses.append(sess.run(loss,feed_dict={x:train[:,0].reshape((10000,1)), y:train[:,1].reshape((10000,1))}))
             '''  
-            if (e+1) == 1 or (e+1) == 500:
-                saver.save(sess, "./model/model"+str(e+1)+"_1-2-b2")
+            
+        for e in range(1000):
+            avg_loss = 0
+            for k in range(10):            
+                _, c, summary = sess.run([optimizer2, loss2, merged_summary_op],feed_dict={x: train[k*1000:k*1000+1000,0].reshape((1000,1)), y: train[k*1000:k*1000+1000,1].reshape((1000,1))})
+                
+                avg_loss += c
+            
+            '''
+            if (e+1) % 50 == 0:
+                hessians.append(sess.run(hess,feed_dict={x:train[:,0].reshape((10000,1)), y:train[:,1].reshape((10000,1))}))
+                gradients.append(sess.run(loss2,feed_dict={x:train[:,0].reshape((10000,1)), y:train[:,1].reshape((10000,1))}))
+                losses.append(sess.run(loss,feed_dict={x:train[:,0].reshape((10000,1)), y:train[:,1].reshape((10000,1))}))
+            '''
+        for e in range(10):
+            avg_loss = 0
+            for k in range(10):            
+                _, c, summary = sess.run([optimizer2, loss2, merged_summary_op],feed_dict={x: train[k*1000:k*1000+1000,0].reshape((1000,1)), y: train[k*1000:k*1000+1000,1].reshape((1000,1))})
+                
+                avg_loss += c
+            
+            saver.save(sess, "./model/model"+str(e))
 
 
                     
@@ -146,7 +166,19 @@ def main():
                     
         
                 
-    
+    '''        
+    with open('100timestest_hessians.pickle', 'wb') as handle:
+        pickle.dump(final_result_hessians, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    with open('100timestest_loss.pickle', 'wb') as handle:
+        pickle.dump(final_result_loss, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    with open('100timestest_gradients.pickle', 'wb') as handle:
+        pickle.dump(final_result_grad, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        #feed_dict = {x: train[:,0].reshape(10000,1)}
+        #lul = sess.run(pred, feed_dict)
+        #plt.scatter(train[:,0],lul)
+        #plt.savefig("resul.png")
+    '''
+
      
             
 

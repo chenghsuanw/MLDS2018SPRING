@@ -12,7 +12,6 @@ epoch = 10000
     
 
 def main():
-    #training part
     
     train = np.ones((10000,2))
     for i in range(10000):
@@ -21,6 +20,27 @@ def main():
         train[i,0] = x
         train[i,1] = math.sin(x * math.pi * 5) / ( 5 * math.pi * x)	
         ##train[i,1] = x * x
+    
+    m = ["./model/model1_1-2-b2","./model/model2_1-2-b2"]
+    weights = []
+    for b in m:
+        with tf.Session() as sess:  
+            saver = tf.train.import_meta_graph(b+".meta")
+            saver.restore(sess,b)
+            graph = tf.get_default_graph()
+            
+            
+            k = graph.get_tensor_by_name("super:0").eval()
+            
+            weights.append(k)
+        graph = tf.reset_default_graph()
+    
+
+    print(weights[0].shape)
+    print(weights[0])
+    with open('b3_weights.pickle', 'wb') as handle:
+        pickle.dump(weights, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    
     
     x = tf.placeholder(tf.float32, [None, 1], name = "Traindata")
     y = tf.placeholder(tf.float32, [None, 1], name = "label")
@@ -109,7 +129,11 @@ def main():
         graph = tf.reset_default_graph()
 
 
-  
+    with open('1-2-b-3.pickle', 'wb') as handle:
+        pickle.dump(lul, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    
+    with open("1-2-b-3.pickle","rb") as handle:
+        lul = pickle.load(handle)
     x = [i for i in range(10001)]
     plt.plot(x, lul,label = "loss")
     plt.legend()

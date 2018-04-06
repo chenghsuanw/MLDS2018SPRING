@@ -10,7 +10,7 @@ epochs = 100
 def main():
     
     result = []
-
+    
     train = np.ones((10000,2))
     for i in range(10000):
         x = (i + 1)/ 10000
@@ -20,11 +20,31 @@ def main():
         ##train[i,1] = x * x
     
     
+    k = [9]
+    weights = []
+    for b in k:
+        with tf.Session() as sess:  
+            saver = tf.train.import_meta_graph("./model/model"+str(b)+".meta")
+            saver.restore(sess,"./model/model"+str(b))
+            graph = tf.get_default_graph()
+            
+            
+            k = graph.get_tensor_by_name("super:0").eval()
+            
+            weights.append(k)
+        graph = tf.reset_default_graph()
+    
+
+    print(weights[0].shape)
+    print(weights[0])
+    with open('last10.pickle', 'wb') as handle:
+        pickle.dump(weights, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
     
     
     with open("last10.pickle","rb") as handle:
         weights = pickle.load(handle)
-    final_weights = weights[0]
+    final_weights = weights[-1]
     perturb = np.arange(-0.001, 0.0011,0.0001)
     to_tune = [0,5,10,60,70,170,180,230,235,240,241]
     result = []
@@ -98,20 +118,23 @@ def main():
             line.append(c)
             graph = tf.reset_default_graph()
         result.append(line)
+    with open('bonus_2.pickle', 'wb') as handle:
+        pickle.dump(result, handle, protocol=pickle.HIGHEST_PROTOCOL)
     
     
     
     perturb = np.arange(-0.001, 0.0011,0.0001)
+    with open("bonus_2.pickle","rb") as handle:
+        lines = pickle.load(handle)
     
-    
-    for i in range(len(result)):
-        result[i] = np.array(result[i])
-    result = np.array(result)
+    for i in range(len(lines)):
+        lines[i] = np.array(lines[i])
+    lines = np.array(lines)
     for i in range(10):
-        plt.plot(perturb,result[:,i])    
+        plt.plot(perturb,lines[:,i])    
     
     
-    plt.savefig("1-2-b-2.png")
+    plt.savefig("1-2-b.png")
     plt.close()
 
     
@@ -124,7 +147,8 @@ def main():
 
     
 
-   
+    
+                
 
     
     
