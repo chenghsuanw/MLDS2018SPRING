@@ -21,7 +21,7 @@ def main():
         train[i,1] = math.sin(x * math.pi * 5) / ( 5 * math.pi * x)	
         ##train[i,1] = x * x
     
-    m = ["./model/model1_1-2-b2","./model/model2_1-2-b2"]
+    m = ["./model/model1_1-2-b2","./model/model500_1-2-b2"]
     weights = []
     for b in m:
         with tf.Session() as sess:  
