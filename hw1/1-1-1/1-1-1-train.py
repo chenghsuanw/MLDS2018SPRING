@@ -81,6 +81,9 @@ def main():
 	    optimizer.step()
 	    loss_ls.append(loss.data[0])
 
+	pickle.dump(loss_ls, open('./loss/loss_1.pkl', 'wb'))
+	pickle.dump(net, open('./models/shallow.pkl', 'wb'))
+
 
 if __name__ == '__main__':
     main()
