@@ -2,7 +2,7 @@
 
 ### HW 1-1 Shallow vs Deep
 
-For 1-1-1 Fit a Function
+For 1-1-1 Fit a Function and bonus
 <pre>cd 1-1-1/
 bash 1-1-1.sh</pre>
 
