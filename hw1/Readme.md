@@ -10,6 +10,10 @@ For 1-1-2 Train on MNIST/CIFAR10
 <pre>cd 1-1-2/
 bash 1-1-2.sh</pre>
 
+For 1-1-2 Bonus
+<pre>cd 1-1-b/
+bash 1-1-b.sh</pre>
+
 ### HW 1-2 Optimization
 
 For 1-2-1 Visualize the Optimization Process
