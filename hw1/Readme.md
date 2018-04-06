@@ -48,6 +48,6 @@ For 1-3-3 Flatness vs Generalization
 <pre>cd 1-3-3/
 bash 1-3-3.sh</pre>
 
-For 1-3 Bonus
+For 1-3 Bonus (Running this script may need a GPU with at least 8GB of VRAM and 10GB of free disk space!)
 <pre>cd 1-3-b/
 bash 1-3-b.sh</pre>
