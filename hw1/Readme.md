@@ -1,5 +1,7 @@
 # HW1 Deep Learning Theory #
 
+注意！因初始值為 randomized，結果可能和 report 中稍有不同。
+
 ### HW 1-1 Shallow vs Deep
 
 For 1-1-1 Fit a Function and bonus
