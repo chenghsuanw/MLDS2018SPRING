@@ -17,7 +17,7 @@ tf.app.flags.DEFINE_string('test_file', default='./MLDS_hw2_1_data/testing_data'
 tf.app.flags.DEFINE_string('word2vec', default='./glove.txt', help='pretrained word2vector path')
 tf.app.flags.DEFINE_string('output_file', default='./answer.csv', help='output file path')
 tf.app.flags.DEFINE_string('model', default='basic', help='basic or attention')
-tf.app.flags.DEFINE_string('model_path', default='./model.ckpt', help='model path')
+tf.app.flags.DEFINE_string('model_path', default='./model/model.ckpt', help='model path')
 tf.app.flags.DEFINE_integer('word_embed_dim', default=300, help='dimension of the word embedding')
 tf.app.flags.DEFINE_integer('rnn_units', default=512, help='number of hidden units of rnn cell')
 tf.app.flags.DEFINE_integer('encoder_length', default=80, help='number of timestamp of encoder(frame number)')
