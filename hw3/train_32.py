@@ -18,7 +18,7 @@ import torch
 from dcgan_32 import GAN
 #import pandas as pd
 from Custom_data_32 import FaceWithFeature
-#import pickle
+import pickle
 import sys
 
 
@@ -69,7 +69,7 @@ def save_imgs(gen_imgs,seed):
             axs[i,j].imshow(gen_imgs[cnt, :,:,:])
             axs[i,j].axis('off')
             cnt += 1
-    fig.savefig("./samples/cgan_original.png")
+    fig.savefig("./samples/cgan.png")
     plt.close()
 
 def get_sample_feature(tags_v):
@@ -255,8 +255,13 @@ def predict(seed, tags):
     dcgan.generator.load_state_dict(torch.load(gen_path))
     dcgan.discriminator.load_state_dict(torch.load(dis_path))
 
-    np.random.seed(seed)
-    z = Variable(Tensor(np.random.normal(0, 1, (size, opt.latent_dim))))
+
+    #np.random.seed(seed)
+    #z = np.random.normal(0, 1, (size, opt.latent_dim))
+    #np.savetxt("z_32.txt",z)
+    #exit()
+    z = np.loadtxt("z_32.txt")
+    z = Variable(Tensor(z))
     gen_imgs = dcgan.generator(z,test_sample)
     
     #gen_imgs = torch.div(gen_imgs,2)
